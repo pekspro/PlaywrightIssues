@@ -1,0 +1,60 @@
+<!--<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BlazorApp</title>
+    <base href="/" />
+    <link rel="stylesheet" href="css/bootstrap/bootstrap.min.css" />
+    <link rel="stylesheet" href="css/app.css" />
+    <link rel="icon" type="image/png" href="favicon.png" />
+    <link href="BlazorApp.styles.css" rel="stylesheet" />
+</head>
+
+<body>
+    <div id="app">
+        <svg class="loading-progress">
+            <circle r="40%" cx="50%" cy="50%" />
+            <circle r="40%" cx="50%" cy="50%" />
+        </svg>
+        <div class="loading-progress-text"></div>
+    </div>
+
+    <div id="blazor-error-ui">
+        An unhandled error has occurred.
+        <a href="" class="reload">Reload</a>
+        <a class="dismiss">🗙</a>
+    </div>
+    <script src="_framework/blazor.webassembly.js"></script>
+</body>
+
+</html>-->
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Test</title>
+</head>
+<body>
+    <h1>Test</h1>
+    <button class="btn btn-primary" id="counterButton">Click me</button>
+    <p id="status" role="status">Hello, world!</p>
+
+    <script>
+        let currentCount = 0;
+        const statusElement = document.getElementById('status');
+        const buttonElement = document.getElementById('counterButton');
+
+        buttonElement.addEventListener('click', (event) => {
+            currentCount++;
+            const shift = event.shiftKey;
+            const ctrl = event.ctrlKey;
+            const alt = event.altKey;
+            const meta = event.metaKey;
+            statusElement.textContent = `${currentCount} clicks. Shift: ${shift} Ctrl: ${ctrl} Alt: ${alt} Meta: ${meta}`;
+        });
+    </script>
+</body>
+</html>

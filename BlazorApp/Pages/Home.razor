@@ -1,0 +1,21 @@
+﻿@page "/"
+
+<PageTitle>Home</PageTitle>
+
+<h1>Test</h1>
+
+<p id="status" role="status">@_message</p>
+
+<button class="btn btn-primary" @onclick="IncrementCount">Click me</button>
+
+@code {
+    private int currentCount = 0;
+    private string _message = "Hello, world!";
+
+    private void IncrementCount(MouseEventArgs e)
+    {
+        currentCount++;
+
+        _message = $"{currentCount} clicks. Shift: {e.ShiftKey.ToString().ToLower()} Ctrl: {e.CtrlKey.ToString().ToLower()} Alt: {e.AltKey.ToString().ToLower()} Meta: {e.MetaKey.ToString().ToLower()}";
+    }
+}

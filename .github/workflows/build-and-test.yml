@@ -1,0 +1,54 @@
+name: Build verify
+
+on:
+  push:
+    branches:
+      - '*'
+  pull_request:
+    branches:
+      - '*'
+  workflow_dispatch:
+
+jobs:
+  test:
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        os: [ubuntu-latest, windows-latest, macos-latest]
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Restore dependencies
+      run: dotnet restore ./
+
+    - name: Build Test
+      run: dotnet build ./PlaywrightTest/PlaywrightTest.csproj --no-restore
+
+    - name: Install Playwright dependencies
+      if: ${{ runner.os == 'Linux' }}
+      run: pwsh ./PlaywrightTest/bin/Debug/net8.0/playwright.ps1 install-deps
+
+    - name: Install Playwright
+      run: pwsh ./PlaywrightTest/bin/Debug/net8.0/playwright.ps1 install
+
+    - name: Playwright test Chromium
+      if: always()
+      run: dotnet test ./PlaywrightTest/PlaywrightTest.csproj --no-restore -- Playwright.BrowserName=chromium
+
+    - name: Playwright test Firefox
+      if: always()
+      run: dotnet test ./PlaywrightTest/PlaywrightTest.csproj --no-restore -- Playwright.BrowserName=firefox
+
+    - name: Playwright test Webkit
+      if: always()
+      run: dotnet test ./PlaywrightTest/PlaywrightTest.csproj --no-restore -- Playwright.BrowserName=webkit
+        
+    - name: Upload Playwright logs
+      if: failure()
+      uses: actions/upload-artifact@v4.3.2
+      with:
+        name: playwright
+        retention-days: 2
+        path: |
+          ./PlaywrightTest/bin/Debug/net8.0/playwright-traces/**/*.*
